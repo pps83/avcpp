@@ -92,7 +92,7 @@ public:
     int                 codedHeight() const;
     PixelFormat         pixelFormat() const;
     int32_t             bitRate() const;
-    std::pair<int, int> bitRateRange() const;
+    std::pair<int64_t, int64_t> bitRateRange() const;
     int32_t             globalQuality();
     int32_t             gopSize();
     int                 bitRateTolerance() const;

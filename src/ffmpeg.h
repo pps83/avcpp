@@ -1,7 +1,29 @@
 #ifndef FFMPEG_H
 #define FFMPEG_H
 
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#ifdef min
+#undef min
+#undef max
+#endif
+#ifdef _MSC_VER
+typedef SSIZE_T ssize_t;
+#endif
+#endif
 #include <iostream>
+#include <stddef.h>
+#include <math.h>
+#include <stdio.h>
+
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4244)
+#endif
 
 extern "C"
 {
@@ -10,15 +32,13 @@ extern "C"
 #include <libavutil/mathematics.h>
 #include <libavutil/opt.h>
 #include <libavutil/pixdesc.h>
-#include <libavdevice/avdevice.h>
 #include <libswscale/swscale.h>
 #include <libswresample/swresample.h>
-#include <libavformat/version.h>
+#include <libavformat/avformat.h>
 }
 
 extern "C" {
 #include <libavfilter/avfilter.h>
-#include <libavfilter/avfiltergraph.h>
 #include <libavfilter/buffersink.h>
 #include <libavfilter/buffersrc.h>
 #if LIBAVFILTER_VERSION_INT <= AV_VERSION_INT(2,77,100) // 0.11.1
@@ -28,6 +48,16 @@ extern "C" {
 #include <libavfilter/avcodec.h>
 #endif
 }
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
+static const AVRational avTimeBase_Q = { 1, AV_TIME_BASE };
+#undef AV_TIME_BASE_Q
+#define AV_TIME_BASE_Q avTimeBase_Q
+#ifndef FF_INPUT_BUFFER_PADDING_SIZE
+#define FF_INPUT_BUFFER_PADDING_SIZE AV_INPUT_BUFFER_PADDING_SIZE
+#endif
 
 // Compat level
 
@@ -179,7 +209,7 @@ protected:
 #if AV_GCC_VERSION_AT_LEAST(3,1)
 #    define attribute_deprecated2(x) __attribute__((deprecated(x)))
 #elif defined(_MSC_VER)
-#    define attribute_deprecated2(x) __declspec(deprecated(x))
+#    define attribute_deprecated2(x) //__declspec(deprecated(x))
 #else
 #    define attribute_deprecated2(x)
 #endif

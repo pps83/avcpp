@@ -393,12 +393,12 @@ int32_t CodecContextDeprecated::bitRate() const
     return RAW_GET2(isValid(), bit_rate, int32_t(0));
 }
 
-std::pair<int, int> CodecContextDeprecated::bitRateRange() const
+std::pair<int64_t, int64_t> CodecContextDeprecated::bitRateRange() const
 {
     if (isValid())
         return make_pair(m_raw->rc_min_rate, m_raw->rc_max_rate);
     else
-        return make_pair(0, 0);
+        return make_pair(0LL, 0LL);
 }
 
 int32_t CodecContextDeprecated::globalQuality()

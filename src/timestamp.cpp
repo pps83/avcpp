@@ -1,5 +1,5 @@
 #include <limits>
-
+#include <algorithm>
 #include "timestamp.h"
 
 namespace av {
