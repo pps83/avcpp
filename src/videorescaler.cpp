@@ -4,6 +4,10 @@
 
 using namespace std;
 
+#ifdef _MSC_VER
+#pragma comment(lib, "swscale.lib")
+#endif
+
 namespace av
 {
 

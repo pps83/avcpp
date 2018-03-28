@@ -9,6 +9,12 @@
 
 using namespace std;
 
+#ifdef _MSC_VER
+#pragma comment(lib, "avutil.lib")
+#pragma comment(lib, "avcodec.lib")
+#pragma comment(lib, "avformat.lib")
+#pragma comment(lib, "avfilter.lib")
+#endif
 //
 // Functions
 //

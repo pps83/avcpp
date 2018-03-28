@@ -5,6 +5,10 @@
 
 using namespace std;
 
+#ifdef _MSC_VER
+#pragma comment(lib, "swresample.lib")
+#endif
+
 namespace av {
 
 AudioResampler::AudioResampler()
