@@ -199,20 +199,20 @@ public:
 
     operator bool() const { return isValid() && isComplete(); }
 
-    uint8_t *data(size_t plane = 0) {
-        if (!m_raw || plane >= (AV_NUM_DATA_POINTERS + m_raw->nb_extended_buf))
+    uint8_t *data(unsigned plane = 0) {
+        if (!m_raw || plane >= (unsigned)(AV_NUM_DATA_POINTERS + m_raw->nb_extended_buf))
             return nullptr;
         return m_raw->extended_data[plane];
     }
 
-    const uint8_t *data(size_t plane = 0) const {
-        if (!m_raw || plane >= (AV_NUM_DATA_POINTERS + m_raw->nb_extended_buf))
+    const uint8_t *data(unsigned plane = 0) const {
+        if (!m_raw || plane >= (unsigned)(AV_NUM_DATA_POINTERS + m_raw->nb_extended_buf))
             return nullptr;
         return m_raw->extended_data[plane];;
     }
 
-    size_t size(size_t plane) const {
-        if (!m_raw || plane >= (AV_NUM_DATA_POINTERS + m_raw->nb_extended_buf))
+    size_t size(unsigned plane) const {
+        if (!m_raw || plane >= (unsigned)(AV_NUM_DATA_POINTERS + m_raw->nb_extended_buf))
             return 0;
         AVBufferRef *buf = plane < AV_NUM_DATA_POINTERS ?
                                m_raw->buf[plane] :
@@ -231,7 +231,7 @@ public:
                 total += m_raw->buf[i]->size;
             }
 
-            for (size_t i = 0; i < m_raw->nb_extended_buf; ++i) {
+            for (int i = 0; i < m_raw->nb_extended_buf; ++i) {
                 total += m_raw->extended_buf[i]->size;
             }
         } else if (m_raw->data[0]) {
@@ -249,7 +249,7 @@ public:
                                                nullptr,
                                                linesizes);
             } else if (m_raw->nb_samples && m_raw->channel_layout) {
-                for (size_t i = 0; i < m_raw->nb_extended_buf + AV_NUM_DATA_POINTERS && m_raw->extended_data[i]; ++i) {
+                for (int i = 0; i < m_raw->nb_extended_buf + AV_NUM_DATA_POINTERS && m_raw->extended_data[i]; ++i) {
                     // According docs, all planes must have same size
                     total += m_raw->linesize[0];
                 }
